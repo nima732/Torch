@@ -34,7 +34,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		getWindow().getDecorView().setBackgroundColor(Color.LTGRAY);
+		getWindow().																	// Retrieve current window for activity
+		getDecorView().																	// Retrieve the top-level window decor view
+		setBackgroundColor(Color.LTGRAY);  
 	}
 
 	@Override
@@ -44,22 +46,29 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	public void turnOnLight(View view) {
-		boolean hastFlash = false;
+	
+	public void turnOnLight(View view) {												// This method be called in Activity XML
+		boolean hastFlash = false;	
 		ImageView imageView = (ImageView) view.findViewById(R.id.imageButton1);
 
-		// To check the previous state of Flash and Image
-		if (torchOn == false) {
-			hastFlash = getApplicationContext().getPackageManager()
+																					
+		if (torchOn == false) {															// To check the previous state of Flash and Image
+			hastFlash = getApplicationContext()											// Return the context of the single, global Application object 
+																						// of the current process. This generally should only be used if 
+																						// you need a Context whose lifecycle is separate from the current 
+																						// context, 
+																						// that is tied to the lifetime of the process rather than the 
+																						// current component. 
+					.getPackageManager()
 					.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 			System.out.println(">>>>>>>>>>>>");
 			imageView.setImageResource(R.drawable.light_bulb);
 
-			// Check Flash hardware.
-			if (hastFlash) {
+			
+			if (hastFlash) {															// Check Flash hardware.
 				torchOn = true;
-				getCamera();
-				turnOnFlash();
+				getCamera();															// To initiate camera object.
+				turnOnFlash();	
 			} else {
 				AlertDialog alert = new AlertDialog.Builder(MainActivity.this)
 						.create();
@@ -85,7 +94,8 @@ public class MainActivity extends Activity {
 
 	}
 	
-	protected void onDestroy() {
+	protected void onDestroy() {														// This method is important, otherwise the app will not release camera 
+																						// does not work.
         super.onDestroy();
         if (mediaPlayer != null) {
             mediaPlayer.release();
@@ -105,8 +115,9 @@ public class MainActivity extends Activity {
 	private void getCamera() {
 		if (camera == null) {
 			try {
-				camera = Camera.open();
-				params = camera.getParameters();
+				camera = Camera.open();														// Creates a new Camera object to access the first back-facing 
+																							// camera on the device.
+				params = camera.getParameters();											// Return current setting for this camera device.
 			} catch (RuntimeException e) {
 				Log.e("Camera Error. Failed to Open. Error: ", e.getMessage());
 			}
@@ -118,9 +129,8 @@ public class MainActivity extends Activity {
 			if (camera == null || params == null) {
 				return;
 			}
-			// play sound
 			try {
-				playSound("mySound");
+				playSound("mySound");														// play sound
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -137,9 +147,12 @@ public class MainActivity extends Activity {
 //			}
 
 			params = camera.getParameters();
-			params.setFlashMode(Parameters.FLASH_MODE_TORCH);
+			params.setFlashMode(Parameters.FLASH_MODE_TORCH);								// To make camera parameters take effect, 
+																							// applications have to call setParameters(Camera.Parameters). 
 			camera.setParameters(params);
-			camera.startPreview();
+			camera.startPreview();															// Starts capturing and drawing preview frames to the screen. 
+																							// Preview will not actually start until a surface is supplied 
+																							// with setPreviewDisplay(SurfaceHolder) or setPreviewTexture(SurfaceTexture). 
 			torchOn = true;
 
 			// changing button/switch image
@@ -196,8 +209,9 @@ public class MainActivity extends Activity {
 	}
 	
 	private void playSound(String mySound){
-		mediaPlayer = MediaPlayer.create(this, R.raw.beep_07);
-		mediaPlayer.setLooping(false);
+		mediaPlayer = MediaPlayer.create(this, R.raw.beep_07);								// Using MediaPlayer to play sound. I have download a beep file to 
+																							// play. Then put the file in new created folder -raw-.
+		mediaPlayer.setLooping(false);	
 		Log.e("beep","started0");
 		mediaPlayer.start();
 		mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
