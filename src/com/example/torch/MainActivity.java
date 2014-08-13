@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
 
 																						// To set imageview to transparent, it should be set via xml file.		
 		
-		imageView.setScaleType(ScaleType.FIT_XY);										// To fit to screen
+//		imageView.setScaleType(ScaleType.FIT_XY);										// To fit to screen
 		
 																					
 		if (torchOn == false) {															// To check the previous state of Flash and Image
