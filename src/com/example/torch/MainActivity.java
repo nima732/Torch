@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 
 import android.media.MediaPlayer.OnCompletionListener;
 
@@ -36,7 +37,9 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		getWindow().																	// Retrieve current window for activity
 		getDecorView().																	// Retrieve the top-level window decor view
-		setBackgroundColor(Color.LTGRAY);  
+		setBackgroundColor(Color.LTGRAY);
+																				
+
 	}
 
 	@Override
@@ -51,6 +54,10 @@ public class MainActivity extends Activity {
 		boolean hastFlash = false;	
 		ImageView imageView = (ImageView) view.findViewById(R.id.imageButton1);
 
+																						// To set imageview to transparent, it should be set via xml file.		
+		
+//		imageView.setScaleType(ScaleType.FIT_XY);										// To fit to screen
+		
 																					
 		if (torchOn == false) {															// To check the previous state of Flash and Image
 			hastFlash = getApplicationContext()											// Return the context of the single, global Application object 
